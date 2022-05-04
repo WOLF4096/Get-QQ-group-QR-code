@@ -9,6 +9,7 @@
 在浏览器打开即可使用  
   
 ![请输入图片描述][1]
-
+## 演示站点
+http://demo.f0f.cc/quncode/
 
   [1]: https://s.cdnv1.hanwuss.com/static/upload/wolf4096/20220504/202205041237592660.png
