@@ -9,7 +9,7 @@ Accept: */*
 User-Agent: QQ/9.5.9.28650 (Windows NT 10.0)
 Connection: Keep-Alive
 Cache-Control: no-cache
-Cookie: uin=1733701411; skey=ZFqlNsIRqZ;
+Cookie: uin=746515005; skey=你的Cookie;
 Content-Type: application/x-www-form-urlencoded; charset=UTF-8';
     $post_data = 'bkn=2085173833&gc='.$qun.'&qrsize=5';
     $options = array(
