@@ -1,33 +1,38 @@
 <?php
 $qun = $_POST["qun"];
+if ($qun == ""){$qun = "749609639";}
 if ($qun <> ""){
-    $url = "https://admin.qun.qq.com/cgi-bin/qun_admin/get_join_link";//请求URL
-    $post_data = array (
-        "bkn" => "1285407349",
-        "gc" => $qun,
-        "qrsize" => "4"
-        );//请求参数
-    $cookie = "uin=你的QQ; skey=你的密钥（不是QQ密码）;";//Cookie
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-    curl_setopt($ch, CURLOPT_COOKIE, $cookie);
-    $output = curl_exec($ch);
+    $url = 'https://admin.qun.qq.com/cgi-bin/qun_admin/get_join_link';
+    $header = '
+Host: admin.qun.qq.com
+Accept: */*
+User-Agent: QQ/9.5.9.28650 (Windows NT 10.0)
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: uin=1733701411; skey=ZFqlNsIRqZ;
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8';
+    $post_data = 'bkn=2085173833&gc='.$qun.'&qrsize=5';
+    $options = array(
+        'http' => array(
+        'method' => 'POST',
+        'header' => $header,
+        'content' => $post_data,
+        'timeout' => 15 * 60
+        )
+    );
+    $context = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
     
-    $data = json_decode($output, true);
+    $data = json_decode($result, true);
     $url = $data['url'];
     $img = $data['qrcode'];
-    $urr = str_ireplace("_wv=1027&", "", $url);//这一行有没有都可以
+    $urr = str_ireplace("_wv=1027&", "", $url);
     
     $out = '加群链接<br/>
-    <div style="font-size:14px;">'.$urr.'</div><br/>
-    加群二维码<br/>
-    <img src="'.$img.'" style="width: 128px;">
-    <img src="http://qr.f0f.cc/?m=2&p=8&t='.$urr.'" style="width: 128px;"><br/>
-    群头像<br/><br/>
-    <img src="http://p.qlogo.cn/gh/'.$qun.'/'.$qun.'/0" style="width: 256px;">';
+                <div style="font-size:14px;">'.$urr.'</div><br/>加群二维码<br/>
+                <img src="'.$img.'" style="width: 128px;">
+                <img src="http://qr.f0f.cc/?m=2&p=8&t='.$urr.'" style="width: 128px;"><br/>群头像<br/><br/>
+                <img src="http://p.qlogo.cn/gh/'.$qun.'/'.$qun.'/0" style="width: 256px;">';
 }
 ?>
 <!DOCTYPE html>
@@ -60,6 +65,7 @@ if ($qun <> ""){
                 <input type="submit" value="获取" class="input-text" style="background-color: #448EF6;color: #fff;" onclick="post()"><br/><br/>
             </form>
             <div><?php echo $out;?></div>
+            <a href="https://github.com/WOLF4096/Get-QQ-group-QR-code" target="_blank" style="font-size:14px;text-decoration:none;color:#777;">Github</a>
         </div>
     </body>
 </html>
